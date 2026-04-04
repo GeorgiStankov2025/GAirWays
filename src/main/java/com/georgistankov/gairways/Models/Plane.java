@@ -23,7 +23,7 @@ public class Plane {
     @Column(name ="BUSINESS_CAPACITY")
     private int BusinessCapacity;
 
-    @OneToMany(mappedBy = "FLIGHTS")
+    @OneToMany(mappedBy = "Plane")
     private List<Flight> Flights;
 
     public UUID getPlaneId() {

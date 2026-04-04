@@ -35,10 +35,13 @@ public class User {
     @Column(name="USER_ROLE")
     private UserRole UserRole;
 
-    @ManyToMany(mappedBy = "FLIGHTS")
-    private List<Flight> Flights;
+    @ManyToMany(mappedBy = "BusinessPassengers")
+    private List<Flight> BusinessFlights;
 
-    @OneToMany(mappedBy = "TICKETS")
+    @ManyToMany(mappedBy = "EconomyPassengers")
+    private List<Flight> EconomyFlights;
+
+    @OneToMany(mappedBy = "User")
     private List<Ticket> Tickets;
 
 
@@ -99,13 +102,6 @@ public class User {
     }
 
 
-    public List<Flight> getFlights() {
-        return Flights;
-    }
-
-    public void setFlights(List<Flight> flights) {
-        Flights = flights;
-    }
 
     public List<Ticket> getTickets() {
         return Tickets;
@@ -113,5 +109,21 @@ public class User {
 
     public void setTickets(List<Ticket> tickets) {
         Tickets = tickets;
+    }
+
+    public List<Flight> getBusinessFlights() {
+        return BusinessFlights;
+    }
+
+    public void setBusinessFlights(List<Flight> businessFlights) {
+        BusinessFlights = businessFlights;
+    }
+
+    public List<Flight> getEconomyFlights() {
+        return EconomyFlights;
+    }
+
+    public void setEconomyFlights(List<Flight> economyFlights) {
+        EconomyFlights = economyFlights;
     }
 }
