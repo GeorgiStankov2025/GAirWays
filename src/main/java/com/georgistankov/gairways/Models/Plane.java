@@ -26,4 +26,43 @@ public class Plane {
     @OneToMany(mappedBy = "FLIGHTS")
     private List<Flight> Flights;
 
+    public UUID getPlaneId() {
+        return PlaneId;
+    }
+
+    public void setPlaneId(UUID planeId) {
+        PlaneId = planeId;
+    }
+
+    public String getPlaneModel() {
+        return PlaneModel;
+    }
+
+    public void setPlaneModel(String planeModel) {
+        PlaneModel = planeModel;
+    }
+
+    public int getEconomyCapacity() {
+        return EconomyCapacity;
+    }
+
+    public void setEconomyCapacity(int economyCapacity) {
+        EconomyCapacity = economyCapacity;
+    }
+
+    public int getBusinessCapacity() {
+        return BusinessCapacity;
+    }
+
+    public void setBusinessCapacity(int businessCapacity) {
+        BusinessCapacity = businessCapacity;
+    }
+
+    public List<Flight> getFlights() {
+        return Flights;
+    }
+
+    public void setFlights(List<Flight> flights) {
+        Flights = flights;
+    }
 }

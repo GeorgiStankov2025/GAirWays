@@ -54,4 +54,75 @@ public class Flight {
     @JoinColumn(name="PLANE_ID")
     private Plane Plane;
 
+    public UUID getFlightId() {
+        return FlightId;
+    }
+
+    public void setFlightId(UUID flightId) {
+        FlightId = flightId;
+    }
+
+    public String getDeparture() {
+        return Departure;
+    }
+
+    public void setDeparture(String departure) {
+        Departure = departure;
+    }
+
+    public String getDestination() {
+        return Destination;
+    }
+
+    public void setDestination(String destination) {
+        Destination = destination;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return DepartureTime;
+    }
+
+    public void setDepartureTime(LocalDateTime departureTime) {
+        DepartureTime = departureTime;
+    }
+
+    public LocalDateTime getArrivalTime() {
+        return ArrivalTime;
+    }
+
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        ArrivalTime = arrivalTime;
+    }
+
+    public int getEstimatedTime() {
+        return EstimatedTime;
+    }
+
+    public void setEstimatedTime(int estimatedTime) {
+        EstimatedTime = estimatedTime;
+    }
+
+    public BigDecimal getPrice() {
+        return Price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        Price = price;
+    }
+
+    public List<User> getEconomyPassengers() {
+        return EconomyPassengers;
+    }
+
+    public void setEconomyPassengers(List<User> economyPassengers) {
+        EconomyPassengers = economyPassengers;
+    }
+
+    public List<User> getBusinessPassengers() {
+        return BusinessPassengers;
+    }
+
+    public void setBusinessPassengers(List<User> businessPassengers) {
+        BusinessPassengers = businessPassengers;
+    }
 }

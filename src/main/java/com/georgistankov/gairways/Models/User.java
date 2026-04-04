@@ -41,4 +41,77 @@ public class User {
     @OneToMany(mappedBy = "TICKETS")
     private List<Ticket> Tickets;
 
+
+    public UUID getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(UUID userId) {
+        UserId = userId;
+    }
+
+    public String getUsername() {
+        return Username;
+    }
+
+    public void setUsername(String username) {
+        Username = username;
+    }
+
+    public String getPasswordHash() {
+        return PasswordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        PasswordHash = passwordHash;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return ModifiedAt;
+    }
+
+    public void setModifiedAt(LocalDateTime modifiedAt) {
+        ModifiedAt = modifiedAt;
+    }
+
+    public UserRole getUserRole() {
+        return UserRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        UserRole = userRole;
+    }
+
+
+    public List<Flight> getFlights() {
+        return Flights;
+    }
+
+    public void setFlights(List<Flight> flights) {
+        Flights = flights;
+    }
+
+    public List<Ticket> getTickets() {
+        return Tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        Tickets = tickets;
+    }
 }
