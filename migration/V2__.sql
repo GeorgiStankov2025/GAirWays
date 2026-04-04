@@ -1,14 +1,9 @@
-ALTER TABLE tickets
-    DROP CONSTRAINT fk_tickets_on_flight;
 
 CREATE TABLE tickets_flights
 (
     flight_id UUID NOT NULL,
     ticket_id UUID NOT NULL
 );
-
-ALTER TABLE tickets
-    DROP COLUMN flight_id;
 
 ALTER TABLE tickets_flights
     ADD CONSTRAINT fk_ticfli_on_ticket FOREIGN KEY (ticket_id) REFERENCES tickets (ticket_id);
