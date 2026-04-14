@@ -1,7 +1,9 @@
 package com.georgistankov.gairways.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.georgistankov.gairways.Enums.UserRole;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="USERS")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id
@@ -36,12 +39,15 @@ public class User {
     private UserRole UserRole;
 
     @ManyToMany(mappedBy = "BusinessPassengers")
+    @JsonIgnore
     private List<Flight> BusinessFlights;
 
     @ManyToMany(mappedBy = "EconomyPassengers")
+    @JsonIgnore
     private List<Flight> EconomyFlights;
 
     @OneToMany(mappedBy = "User")
+    @JsonIgnore
     private List<Ticket> Tickets;
 
 

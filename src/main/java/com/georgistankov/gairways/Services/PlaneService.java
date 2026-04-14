@@ -37,7 +37,7 @@ public class PlaneService {
         return planeRepository.findAll();
     }
 
-    public String deletePlane(UUID id, PlaneDTO request)
+    public String deletePlane(UUID id)
     {
         Plane plane = planeRepository.findById(id).get();
         planeRepository.delete(plane);

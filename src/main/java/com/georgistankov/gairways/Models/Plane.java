@@ -1,5 +1,6 @@
 package com.georgistankov.gairways.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class Plane {
     private int BusinessCapacity;
 
     @OneToMany(mappedBy = "Plane")
+    @JsonIgnore
     private List<Flight> Flights;
 
     public UUID getPlaneId() {

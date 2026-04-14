@@ -4,10 +4,12 @@ import com.georgistankov.gairways.Models.Plane;
 import com.georgistankov.gairways.Models.Ticket;
 import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Repositories.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class TicketService {
 
     private final TicketRepository ticketRepository;
@@ -16,12 +18,10 @@ public class TicketService {
 
     public TicketService(TicketRepository ticketRepository,
                          FlightService flightService,
-                         TicketRepository ticketRepository1,
-                         FlightService flightService1,
                          UserService userService)
     {
-        this.ticketRepository = ticketRepository1;
-        this.flightService = flightService1;
+        this.ticketRepository = ticketRepository;
+        this.flightService = flightService;
         this.userService = userService;
     }
 

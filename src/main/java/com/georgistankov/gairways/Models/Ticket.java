@@ -1,6 +1,7 @@
 package com.georgistankov.gairways.Models;
 
 import jakarta.persistence.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.format.annotation.NumberFormat;
 
 import java.math.BigDecimal;
@@ -20,10 +21,12 @@ public class Ticket {
     @JoinTable(name = "TICKETS_FLIGHTS",
             joinColumns = @JoinColumn(name = "TICKET_ID"),
             inverseJoinColumns = @JoinColumn(name = "FLIGHT_ID"))
+    @JsonIgnore
     private List<Flight> Flights;
 
     @ManyToOne
     @JoinColumn(name="USER_ID")
+    @JsonIgnore
     private User User;
 
     @NumberFormat(style=NumberFormat.Style.CURRENCY)

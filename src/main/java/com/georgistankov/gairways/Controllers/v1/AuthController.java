@@ -7,7 +7,6 @@ import com.georgistankov.gairways.Repositories.UserRepository;
 import com.georgistankov.gairways.Security.JwtUtil;
 import com.georgistankov.gairways.Services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,23 +17,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/test")
-public class TestController {
+@RequestMapping("/api/auth")
+public class AuthController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final JwtUtil jwtUtils;
 
-    public TestController(UserService userService,
+    public AuthController(UserService userService,
                           AuthenticationManager authenticationManager,
                           UserRepository userRepository,
                           PasswordEncoder encoder,
                           JwtUtil jwtUtils) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
     }

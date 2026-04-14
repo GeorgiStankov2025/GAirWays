@@ -24,9 +24,6 @@ public class FlightDTO {
     @NotBlank(message = "No Arrival time provided")
     private LocalDateTime ArrivalTime;
 
-
-    private int EstimatedTime;
-
     @NotBlank(message = "No Destination provided")
     @Size(min = 1, message = "Price must be bigger than 0")
     @NumberFormat(style=NumberFormat.Style.CURRENCY)
@@ -62,14 +59,6 @@ public class FlightDTO {
 
     public void setArrivalTime(LocalDateTime arrivalTime) {
         ArrivalTime = arrivalTime;
-    }
-
-    public int getEstimatedTime() {
-        return EstimatedTime;
-    }
-
-    public void setEstimatedTime(int estimatedTime) {
-        EstimatedTime = getArrivalTime().getHour()-getDepartureTime().getHour();
     }
 
     public BigDecimal getPrice() {

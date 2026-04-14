@@ -2,6 +2,7 @@ package com.georgistankov.gairways.Security;
 
 
 import com.georgistankov.gairways.Services.UserService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,7 +47,7 @@ public class WebSecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/api/auth/**", "/api/test/**").permitAll()
+                                .requestMatchers("/api/auth/login","/api/auth/register").permitAll()
                                 .anyRequest().authenticated()
                 );
         http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
@@ -56,7 +57,7 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService(UserService userService) {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            public @NotNull UserDetails loadUserByUsername(@NotNull String username) throws UsernameNotFoundException {
                 return userService.loadUserByUsername(username);
             }
         };

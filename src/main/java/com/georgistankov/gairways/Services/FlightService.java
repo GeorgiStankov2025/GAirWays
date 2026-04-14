@@ -29,11 +29,11 @@ public class FlightService {
         flight.setDeparture(request.getDeparture());
         flight.setDestination(request.getDestination());
         flight.setPrice(request.getPrice());
-        flight.setEstimatedTime(request.getEstimatedTime());
         flight.setArrivalTime(request.getArrivalTime());
         flight.setDepartureTime(request.getDepartureTime());
         flight.setPrice(request.getPrice());
         flight.setPlane(plane);
+        flight.setEstimatedTime(request.getArrivalTime().getHour()-request.getDepartureTime().getHour());
         flightRepository.saveAndFlush(flight);
         return flight;
 

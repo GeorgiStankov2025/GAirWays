@@ -1,5 +1,6 @@
 package com.georgistankov.gairways.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -41,6 +42,7 @@ public class Flight {
         joinColumns = @JoinColumn(name="FLIGHT_ID"),
         inverseJoinColumns = @JoinColumn(name="USER_ID")
     )
+    @JsonIgnore
     private List<User> EconomyPassengers;
 
     @ManyToMany
@@ -48,6 +50,7 @@ public class Flight {
             joinColumns = @JoinColumn(name="FLIGHT_ID"),
             inverseJoinColumns = @JoinColumn(name="USER_ID")
     )
+    @JsonIgnore
     private List<User> BusinessPassengers;
 
     @ManyToOne
