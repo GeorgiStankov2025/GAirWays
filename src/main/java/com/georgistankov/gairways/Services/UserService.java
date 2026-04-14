@@ -6,17 +6,19 @@ import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Service
-class UserService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -35,7 +37,7 @@ class UserService {
         return userRepository.findById(UserId).get();
     }
 
-    public User register(@NotNull UserDTO request){
+    public User register(UserDTO request){
 
 
         User user=new User();
@@ -52,11 +54,22 @@ class UserService {
             user.setUserRole(UserRole.Customer);
         user.setCreatedAt(LocalDateTime.now());
         user.setModifiedAt(LocalDateTime.now());
-        return userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
+        return user;
 
     }
 
-    
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User Not Found with username: " + username);
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPasswordHash(),
+                Collections.emptyList()
+        );
+    }
 
 
 

@@ -18,7 +18,7 @@ public class User {
     private UUID UserId;
 
     @Column(name="USERNAME")
-    private String Username;
+    private String username;
 
     @Column(name="PASSWORD_HASH")
     private String PasswordHash;
@@ -51,14 +51,6 @@ public class User {
 
     public void setUserId(UUID userId) {
         UserId = userId;
-    }
-
-    public String getUsername() {
-        return Username;
-    }
-
-    public void setUsername(String username) {
-        Username = username;
     }
 
     public String getPasswordHash() {
@@ -125,5 +117,13 @@ public class User {
 
     public void setEconomyFlights(List<Flight> economyFlights) {
         EconomyFlights = economyFlights;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
