@@ -1,5 +1,7 @@
 package com.georgistankov.gairways.Security;
 
+import com.georgistankov.gairways.Models.User;
+import com.georgistankov.gairways.Services.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -16,17 +18,27 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
     private SecretKey key;
-    // Initializes the key after the class is instantiated and the jwtSecret is injected,
-    // preventing the repeated creation of the key and enhancing performance
+
+    private final UserService userService;
+
+    public JwtUtil(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
+
     // Generate JWT token
     public String generateToken(String Username) {
+
+        User user=userService.getUserByUsername(Username);
+
         return Jwts.builder()
                 .setSubject(Username)
                 .setIssuedAt(new Date())
+                .claim("UserRole",user.getUserRole().toString())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

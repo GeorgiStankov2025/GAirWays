@@ -125,4 +125,12 @@ public class Flight {
     public void setBusinessPassengers(List<User> businessPassengers) {
         BusinessPassengers = businessPassengers;
     }
+
+    public Plane getPlane() {
+        return Plane;
+    }
+
+    public void setPlane(Plane plane) {
+        Plane = plane;
+    }
 }
