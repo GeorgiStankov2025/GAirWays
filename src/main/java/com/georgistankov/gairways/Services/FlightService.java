@@ -3,6 +3,7 @@ package com.georgistankov.gairways.Services;
 import com.georgistankov.gairways.DTOs.FlightDTO;
 import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.Plane;
+import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Repositories.FlightRepository;
 import com.georgistankov.gairways.Repositories.PlaneRepository;
 import com.georgistankov.gairways.Repositories.UserRepository;
@@ -51,6 +52,36 @@ public class FlightService {
         Flight flight = flightRepository.findById(id).get();
         flightRepository.delete(flight);
         return "Flight deleted!";
+    }
+
+    public User addUserToBusinessPassengers(User user,Flight flight)
+    {
+
+        flight.getBusinessPassengers().add(user);
+        flightRepository.saveAndFlush(flight);
+        return user;
+    }
+
+    public User addUserToEconomyPassengers(User user,Flight flight)
+    {
+
+        flight.getEconomyPassengers().add(user);
+        flightRepository.saveAndFlush(flight);
+        return user;
+    }
+
+    public List<User> getBusinessPassengers(UUID id){
+
+        Flight flight=getFlight(id);
+        return flight.getBusinessPassengers();
+
+    }
+
+    public List<User> getEconomyPassengers(UUID id){
+
+        Flight flight=getFlight(id);
+        return flight.getEconomyPassengers();
+
     }
 
 }

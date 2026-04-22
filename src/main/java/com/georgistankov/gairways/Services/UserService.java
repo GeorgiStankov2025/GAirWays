@@ -4,6 +4,7 @@ import com.georgistankov.gairways.DTOs.UserDTO;
 import com.georgistankov.gairways.Enums.UserRole;
 import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.User;
+import com.georgistankov.gairways.Repositories.FlightRepository;
 import com.georgistankov.gairways.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
@@ -24,10 +25,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FlightService flightService;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FlightService flightService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.flightService = flightService;
     }
 
     public List<User> getAllUsers(){
@@ -76,7 +79,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public String getCurrentUser() {
+    public String getCurrentUserUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             return authentication.getName();
@@ -84,5 +87,48 @@ public class UserService {
         return null;
     }
 
+    public Flight addBusinessFlight(UUID flightId)
+    {
+
+        String currentUserUsername=getCurrentUserUsername();
+        User user=getUserByUsername(currentUserUsername);
+        Flight flight= flightService.getFlight(flightId);
+        user.getBusinessFlights().add(flight);
+        flightService.addUserToBusinessPassengers(user,flight);
+        userRepository.saveAndFlush(user);
+        return flight;
+
+    }
+
+    public Flight addEconomyFlight(UUID flightId)
+    {
+
+        String currentUserUsername=getCurrentUserUsername();
+        User user=getUserByUsername(currentUserUsername);
+        Flight flight= flightService.getFlight(flightId);
+        user.getEconomyFlights().add(flight);
+        flightService.addUserToEconomyPassengers(user,flight);
+        userRepository.saveAndFlush(user);
+        return flight;
+
+    }
+
+    public List<Flight> getBusinessFlightsForUser()
+    {
+
+        String currentUserUsername=getCurrentUserUsername();
+        User user=getUserByUsername(currentUserUsername);
+        return user.getBusinessFlights();
+
+    }
+
+    public List<Flight> getEconomyFlightsForUser()
+    {
+
+        String currentUserUsername=getCurrentUserUsername();
+        User user=getUserByUsername(currentUserUsername);
+        return user.getEconomyFlights();
+
+    }
 
 }

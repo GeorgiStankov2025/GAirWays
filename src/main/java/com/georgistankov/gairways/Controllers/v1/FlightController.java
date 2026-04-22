@@ -2,6 +2,7 @@ package com.georgistankov.gairways.Controllers.v1;
 
 import com.georgistankov.gairways.DTOs.FlightDTO;
 import com.georgistankov.gairways.Models.Flight;
+import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Services.FlightService;
 import com.georgistankov.gairways.Services.PlaneService;
 import com.georgistankov.gairways.Services.UserService;
@@ -43,6 +44,21 @@ public class FlightController {
     public void deleteFlight(@PathVariable UUID id)
     {
         flightService.deleteFlight(id);
+    }
+
+    @GetMapping("/{id}/business_passengers")
+    public List<User> getBusinessPassengersForFlight(@PathVariable UUID id)
+    {
+
+        return flightService.getBusinessPassengers(id);
+
+    }
+
+    @GetMapping("/{id}/economy_passengers")
+    public List<User> getEconomyPassengersForFlight(@PathVariable UUID id){
+
+        return flightService.getEconomyPassengers(id);
+
     }
 
 }

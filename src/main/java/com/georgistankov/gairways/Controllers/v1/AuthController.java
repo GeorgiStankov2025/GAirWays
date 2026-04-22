@@ -69,12 +69,11 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public String getCurrentUser()
+    public String getCurrentUserUsername()
     {
 
-        return userService.getCurrentUser();
+        return userService.getCurrentUserUsername();
 
     }
-
 
 }
