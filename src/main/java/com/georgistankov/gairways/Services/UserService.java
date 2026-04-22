@@ -6,6 +6,8 @@ import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,10 +25,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FlightService flightService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-
     }
 
     public List<User> getAllUsers(){
@@ -73,6 +74,14 @@ public class UserService {
 
     public User getUserByUsername(String username){
         return userRepository.findByUsername(username);
+    }
+
+    public String getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getName();
+        }
+        return null;
     }
 
 

@@ -17,7 +17,7 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final PlaneService planeService;
 
-    public FlightService(FlightRepository flightRepository, PlaneService planeService, UserService userService) {
+    public FlightService(FlightRepository flightRepository, PlaneService planeService) {
         this.flightRepository = flightRepository;
         this.planeService = planeService;
     }

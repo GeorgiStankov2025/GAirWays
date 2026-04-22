@@ -16,13 +16,9 @@ import java.util.UUID;
 public class FlightController {
 
     private final FlightService flightService;
-    private final UserService userService;
-    private final PlaneService planeService;
 
     FlightController(FlightService flightService, UserService userService, PlaneService planeService) {
         this.flightService = flightService;
-        this.userService = userService;
-        this.planeService = planeService;
     }
 
     @PostMapping("")
