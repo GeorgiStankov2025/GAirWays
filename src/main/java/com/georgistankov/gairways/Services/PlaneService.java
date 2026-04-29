@@ -1,6 +1,7 @@
 package com.georgistankov.gairways.Services;
 
 import com.georgistankov.gairways.DTOs.PlaneDTO;
+import com.georgistankov.gairways.Exceptions.ResourceNotFoundException;
 import com.georgistankov.gairways.Models.Plane;
 import com.georgistankov.gairways.Repositories.PlaneRepository;
 import com.georgistankov.gairways.Repositories.UserRepository;
@@ -30,7 +31,8 @@ public class PlaneService {
     }
 
     public Plane getPlaneById(UUID id) {
-        return planeRepository.findById(id).get();
+        return planeRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Plane with id is not found"));
     }
 
     public List<Plane> getAllPlanes() {
@@ -39,7 +41,8 @@ public class PlaneService {
 
     public String deletePlane(UUID id)
     {
-        Plane plane = planeRepository.findById(id).get();
+        Plane plane = planeRepository.findById(id).orElseThrow(
+                ()->new ResourceNotFoundException("Cannot delete. Plane with id is not found."));
         planeRepository.delete(plane);
         return "Plane deleted!";
     }

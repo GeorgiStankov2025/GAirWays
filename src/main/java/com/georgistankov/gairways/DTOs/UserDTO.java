@@ -12,7 +12,7 @@ public class UserDTO {
     private String Username;
 
     @NotBlank(message = "No password provided")
-    @Size(min = 8, max = 20, message = "The size must be between 3 and 20 letters")
+    @Size(min = 8, max = 20, message = "The size must be between 8 and 20 letters")
     private String Password;
 
     @NotBlank(message = "No email provided")

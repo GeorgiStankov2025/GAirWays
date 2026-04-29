@@ -1,12 +1,19 @@
 package com.georgistankov.gairways.Services;
 
+import com.georgistankov.gairways.DTOs.LoginUserDTO;
 import com.georgistankov.gairways.DTOs.UserDTO;
 import com.georgistankov.gairways.Enums.UserRole;
+import com.georgistankov.gairways.Exceptions.BadRequestException;
+import com.georgistankov.gairways.Exceptions.ConflictException;
+import com.georgistankov.gairways.Exceptions.ResourceNotFoundException;
 import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.User;
 import com.georgistankov.gairways.Repositories.FlightRepository;
 import com.georgistankov.gairways.Repositories.UserRepository;
+import com.georgistankov.gairways.Security.JwtUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +34,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final FlightService flightService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, FlightService flightService) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       FlightService flightService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.flightService = flightService;
@@ -38,20 +47,26 @@ public class UserService {
     }
 
     public User getUser(UUID UserId){
-        return userRepository.findById(UserId).get();
+        return userRepository.findById(UserId).orElseThrow(
+                ()->new ResourceNotFoundException("No user found with this id."));
     }
 
     public User register(UserDTO request){
 
-
         User user=new User();
-
         String passwordHash=passwordEncoder.encode(request.getPassword());
+        List<User> users=getAllUsers();
+
+        for(User u:users) {
+
+            if(u.getUsername().equals(request.getUsername())) {
+                throw new ConflictException("There is already a user with username " + request.getUsername() + ".");
+            }
+        }
 
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPasswordHash(passwordHash);
-        List<User> users=userRepository.findAll();
         if((long) users.size()==0)
             user.setUserRole(UserRole.Admin);
         else
@@ -76,7 +91,12 @@ public class UserService {
     }
 
     public User getUserByUsername(String username){
-        return userRepository.findByUsername(username);
+        User user=userRepository.findByUsername(username);
+        if(user==null)
+        {
+            throw new UsernameNotFoundException("User Not Found with username: " + username);
+        }
+        return user;
     }
 
     public String getCurrentUserUsername() {

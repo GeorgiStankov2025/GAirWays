@@ -14,17 +14,15 @@ import java.util.UUID;
 public class TicketController {
 
     private final TicketService ticketService;
-    private final UserService userService;
 
-    public TicketController(TicketService ticketService, UserService userService) {
+    public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
-        this.userService = userService;
     }
 
     @PostMapping("")
-    public Ticket createTicket(@RequestHeader UUID userId) {
+    public Ticket createTicket() {
 
-        return ticketService.createTicket(userId);
+        return ticketService.createTicket();
 
     }
 
@@ -42,6 +40,14 @@ public class TicketController {
     public String deleteTicket(@PathVariable UUID id) {
 
         return ticketService.deleteTicket(id);
+
+    }
+
+    @PostMapping("/{id}/flights")
+    public Ticket addFlight(@PathVariable UUID id, @RequestHeader UUID flightId)
+    {
+
+        return ticketService.addFlight(id, flightId);
 
     }
 

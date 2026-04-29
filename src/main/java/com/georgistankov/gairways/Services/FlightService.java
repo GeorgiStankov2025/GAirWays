@@ -1,6 +1,8 @@
 package com.georgistankov.gairways.Services;
 
 import com.georgistankov.gairways.DTOs.FlightDTO;
+import com.georgistankov.gairways.Exceptions.BadRequestException;
+import com.georgistankov.gairways.Exceptions.ResourceNotFoundException;
 import com.georgistankov.gairways.Models.Flight;
 import com.georgistankov.gairways.Models.Plane;
 import com.georgistankov.gairways.Models.User;
@@ -45,29 +47,45 @@ public class FlightService {
     }
 
     public Flight getFlight(UUID id){
-        return flightRepository.findById(id).get();
+        return flightRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("No flight with this id found in the database"));
+
     }
 
     public String deleteFlight(UUID id){
-        Flight flight = flightRepository.findById(id).get();
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException
+                        ("Cannot delete because no flight with this id is found in the database or is already deleted"));;
         flightRepository.delete(flight);
         return "Flight deleted!";
     }
 
     public User addUserToBusinessPassengers(User user,Flight flight)
     {
+        if(flight.getBusinessPassengers().size()<flight.getPlane().getBusinessCapacity()) {
+            flight.getBusinessPassengers().add(user);
+            flightRepository.saveAndFlush(flight);
+            return user;
+        }
+        else{
 
-        flight.getBusinessPassengers().add(user);
-        flightRepository.saveAndFlush(flight);
-        return user;
+            throw new BadRequestException("There are no available seats in business class");
+
+        }
     }
 
     public User addUserToEconomyPassengers(User user,Flight flight)
     {
+        if(flight.getEconomyPassengers().size()<flight.getPlane().getEconomyCapacity()) {
+            flight.getEconomyPassengers().add(user);
+            flightRepository.saveAndFlush(flight);
+            return user;
+        }
+        else{
 
-        flight.getEconomyPassengers().add(user);
-        flightRepository.saveAndFlush(flight);
-        return user;
+            throw new BadRequestException("There are no available seats in economy class");
+
+        }
     }
 
     public List<User> getBusinessPassengers(UUID id){

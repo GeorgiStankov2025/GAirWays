@@ -2,17 +2,14 @@ package com.georgistankov.gairways.Controllers.v1;
 
 import com.georgistankov.gairways.DTOs.LoginUserDTO;
 import com.georgistankov.gairways.DTOs.UserDTO;
+import com.georgistankov.gairways.Exceptions.BadRequestException;
 import com.georgistankov.gairways.Models.User;
-import com.georgistankov.gairways.Repositories.UserRepository;
 import com.georgistankov.gairways.Security.JwtUtil;
 import com.georgistankov.gairways.Services.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +27,6 @@ public class AuthController {
 
     public AuthController(UserService userService,
                           AuthenticationManager authenticationManager,
-                          UserRepository userRepository,
                           PasswordEncoder encoder,
                           JwtUtil jwtUtils) {
         this.userService = userService;
@@ -40,9 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginUserDTO user) {
-
-        String passwordHash=encoder.encode(user.getPassword());
+    public String login(@Valid @RequestBody LoginUserDTO user) throws BadRequestException{
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -51,6 +45,10 @@ public class AuthController {
                 )
         );
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        if (userDetails == null)
+        {
+         throw new BadRequestException("Invalid username or password");
+        }
         return jwtUtils.generateToken(userDetails.getUsername());
     }
 
